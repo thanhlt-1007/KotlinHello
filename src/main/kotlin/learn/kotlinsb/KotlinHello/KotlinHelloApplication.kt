@@ -6,6 +6,9 @@ package learn.kotlinsb.KotlinHello
 // Must import for CrudRepository
 import java.util.*
 
+// dotenv()
+import io.github.cdimascio.dotenv.dotenv
+
 //
 // SPRING BOOT
 //
@@ -88,6 +91,19 @@ class HomeController {
   @GetMapping("/")
   fun index(@RequestParam("name") name: String) : String {
     return "Hello, nice to meet you $name!"
+  }
+}
+
+@RestController
+class EnvsController {
+  @GetMapping("/envs")
+  fun index() : String {
+    val envMysqlDatatabse = dotenv()["MYSQL_DATABASE"]
+    var envs = """
+      ENVs:<br>
+      - MYSQL_DATABASE: $envMysqlDatatabse<br>
+    """
+    return envs
   }
 }
 

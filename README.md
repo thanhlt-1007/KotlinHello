@@ -22,6 +22,10 @@
 
 - H2 Database
 
+## c. Dotenv
+
+- Dotenv Kotlin 6.4.1
+
 ## 3. Getting Started
 
 - Command
@@ -31,14 +35,22 @@
 
 - Access
 ```sh
-localhost:8080
+http://localhost:8080
 ```
 
 ## 4. Endpoints
 
+### a. Web
+
 ```sh
 curl -X GET 'http://localhost:8080?name=John'
 ```
+
+```sh
+curl -X GET 'http://localhost:8080/envs'
+```
+
+### b. API
 
 ```sh
 curl -X GET 'http://localhost:8080/api/v1/messages'
@@ -50,7 +62,9 @@ curl -X POST 'http://localhost:8080/api/v1/messages' \
 --data '{
   "text": "dummy text"
 }'
+```
 
+```sh
 curl -X POST 'http://localhost:8080/api/v1/messages' \
 -H "Content-Type: application/json" \
 --data '{

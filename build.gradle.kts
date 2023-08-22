@@ -31,6 +31,7 @@ dependencies {
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   // Kotlin reflection library, required for working with Spring
   implementation("org.jetbrains.kotlin:kotlin-reflect")
+  implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
 
   //
   // RUNTIME ONLY
