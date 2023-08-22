@@ -4,9 +4,11 @@
 
 - Spring Boot 3.1.2
 
+- Gradle 8.2.1
+
 - Java 17.0.7
 
-- Gradle 8.2.1
+- Kotlin 1.7.21
 
 ## 2. Getting Started
 
