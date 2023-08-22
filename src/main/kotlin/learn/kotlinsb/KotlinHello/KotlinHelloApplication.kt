@@ -65,15 +65,12 @@ class MessageService(val db: MessageRepositiry) {
     return db.findAll().toList()
   }
 
-  // fun create(messageParam: Message) : Message {
-  //   val id = messageParam.id ?: UUID.randomUUID().toString()
-  //   val text = messageParam.text
-
-  //   val insertQuery = "INSERT INTO messages VALUES (?, ?)"
-  //   db.update(insertQuery, id, text)
-
-  //   return Message(id, text)
-  // }
+  // create if message.id == null
+  // update if message.id exists in db
+  fun create(message: Message) : Message {
+    db.save(message)
+    return message
+  }
 
   fun find(id: String) : Message {
     return db.findById(id).toList().first()
@@ -101,10 +98,10 @@ class MessagesController(val service: MessageService) {
     return service.all()
   }
 
-  // @PostMapping("/api/v1/messages")
-  // fun create(@RequestBody message: Message) : Message {
-  //   return service.create(message)
-  // }
+  @PostMapping("/api/v1/messages")
+  fun create(@RequestBody message: Message) : Message {
+    return service.create(message)
+  }
 
   @GetMapping("/api/v1/messages/{id}")
   fun show(@PathVariable id: String) : Message {
