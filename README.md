@@ -37,9 +37,18 @@ localhost:8080
 ## 4. Endpoints
 
 ```sh
-curl 'http://localhost:8080?name=John'
+curl -X GET 'http://localhost:8080?name=John'
 ```
 
 ```sh
-curl 'http://localhost:8080/api/v1/messages'
+curl -X GET 'http://localhost:8080/api/v1/messages'
+```
+
+```sh
+curl -X POST 'http://localhost:8080/api/v1/messages' \
+-H "Content-Type: application/json" \
+--data '{
+  "id": 2,
+  "text": "dummy text"
+}'
 ```
