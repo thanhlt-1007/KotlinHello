@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping
 //
 import org.springframework.web.bind.annotation.RequestParam
 
+// data class
+data class Message(val id: Int?, val text: String)
+
 @SpringBootApplication
 class KotlinHelloApplication
 
@@ -21,9 +24,28 @@ fun main(args: Array<String>) {
 }
 
 @RestController
-class MessageController {
+class HomeController {
   @GetMapping("/")
   fun index(@RequestParam("name") name: String) : String {
     return "Hello, nice to meet you $name!"
+  }
+}
+
+@RestController
+class MessagesController {
+  @GetMapping("/api/v1/messages")
+  fun index() : MutableList<Message> {
+    val mMessagesList : MutableList<Message> = mutableListOf()
+
+    val enMessage = Message(1, "Hello")
+    mMessagesList.add(enMessage)
+
+    val viMessage = Message(2, "Xin chào")
+    mMessagesList.add(viMessage)
+
+    val jaMessage = Message(2, "こんにちは")
+    mMessagesList.add(jaMessage)
+
+    return mMessagesList
   }
 }
