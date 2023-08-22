@@ -48,17 +48,17 @@ curl -X GET 'http://localhost:8080/api/v1/messages'
 curl -X POST 'http://localhost:8080/api/v1/messages' \
 -H "Content-Type: application/json" \
 --data '{
-  "id": 1,
   "text": "dummy text"
 }'
 
 curl -X POST 'http://localhost:8080/api/v1/messages' \
 -H "Content-Type: application/json" \
 --data '{
-  "text": "dummy text"
+  "id": "424a6d52-1c34-4c7d-8c61-680b8c37e72e",
+  "text": "upda6te dummy text"
 }'
 ```
 
 ```sh
-curl -X GET 'http://localhost:8080/api/v1/messages/1'
+curl -X GET 'http://localhost:8080/api/v1/messages/424a6d52-1c34-4c7d-8c61-680b8c37e72e'
 ```
