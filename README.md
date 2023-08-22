@@ -33,3 +33,9 @@
 ```sh
 localhost:8080
 ```
+
+## 4. Endpoints
+
+```sh
+curl 'http://localhost:8080?name=John'
+```
