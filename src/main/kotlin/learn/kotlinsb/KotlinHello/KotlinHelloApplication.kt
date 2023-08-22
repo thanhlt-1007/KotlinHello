@@ -12,6 +12,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 //
+// SPRING DATA
+//
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Table
+import org.springframework.data.repository.CrudRepository
+
+//
 // SERVICE
 //
 import org.springframework.stereotype.Service
@@ -44,46 +51,42 @@ import org.springframework.web.bind.annotation.RequestBody
 //
 
 // data class
-data class Message(val id: String?, val text: String)
+@Table("MESSAGES")
+data class Message(@Id var id: String?, val text: String)
+
+// Repository
+interface MessageRepositiry : CrudRepository<Message, String>
 
 // Service class
 @Service
-class MessageService(val db: JdbcTemplate) {
+class MessageService(val db: MessageRepositiry) {
   fun all() : List<Message> {
-    var mMessagesList: MutableList<Message> = mutableListOf()
-
-    val selectQuery = "SELECT * FROM messages"
-    db.query(selectQuery) { response, _ ->
-      var id = response.getString("id")
-      var text = response.getString("text")
-      var message = Message(id, text)
-      mMessagesList.add(message)
-    }
-    return mMessagesList.toList()
+    return db.findAll().toList()
   }
 
-  fun create(messageParam: Message) : Message {
-    val id = messageParam.id ?: UUID.randomUUID().toString()
-    val text = messageParam.text
+  // fun create(messageParam: Message) : Message {
+  //   val id = messageParam.id ?: UUID.randomUUID().toString()
+  //   val text = messageParam.text
 
-    val insertQuery = "INSERT INTO messages VALUES (?, ?)"
-    db.update(insertQuery, id, text)
+  //   val insertQuery = "INSERT INTO messages VALUES (?, ?)"
+  //   db.update(insertQuery, id, text)
 
-    return Message(id, text)
-  }
+  //   return Message(id, text)
+  // }
 
-  fun find(id: String) : Message? {
-    var message: Message? = null
+  // fun find(id: String) : Message? {
+  //   var message: Message? = null
 
-    val selectQuery = "SELECT * FROM messages WHERE id = $id"
-    db.query(selectQuery) { response, _ ->
-      var text = response.getString("text")
-      message = Message(id, text)
-    }
+  //   val selectQuery = "SELECT * FROM messages WHERE id = $id"
+  //   db.query(selectQuery) { response, _ ->
+  //     var text = response.getString("text")
+  //     message = Message(id, text)
+  //   }
 
-    return message
-  }
+  //   return message
+  // }
 }
+
 
 //
 // REST CONTROLLER
@@ -103,15 +106,15 @@ class MessagesController(val service: MessageService) {
     return service.all()
   }
 
-  @PostMapping("/api/v1/messages")
-  fun create(@RequestBody message: Message) : Message {
-    return service.create(message)
-  }
+  // @PostMapping("/api/v1/messages")
+  // fun create(@RequestBody message: Message) : Message {
+  //   return service.create(message)
+  // }
 
-  @GetMapping("/api/v1/messages/{id}")
-  fun show(@PathVariable id: String) : Message? {
-    return service.find(id)
-  }
+  // @GetMapping("/api/v1/messages/{id}")
+  // fun show(@PathVariable id: String) : Message? {
+  //   return service.find(id)
+  // }
 }
 
 //
