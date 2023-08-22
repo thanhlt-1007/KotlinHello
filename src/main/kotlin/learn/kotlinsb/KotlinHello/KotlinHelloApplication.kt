@@ -43,6 +43,19 @@ data class Message(val id: Int?, val text: String)
 // Service class
 @Service
 class MessageService(val db: JdbcTemplate) {
+  fun all() : List<Message> {
+    var mMessagesList: MutableList<Message> = mutableListOf()
+
+    val selectQuery = "SELECT * FROM messages"
+    db.query(selectQuery) { response, _ ->
+      var id = response.getString("id").toInt()
+      var text = response.getString("text")
+      var message = Message(id, text)
+      mMessagesList.add(message)
+    }
+    return mMessagesList.toList()
+  }
+
   fun create(message: Message) {
     val insertQuery = "INSERT INTO messages VALUES (?, ?)"
     db.update(insertQuery, message.id, message.text)
@@ -63,19 +76,8 @@ class HomeController {
 @RestController
 class MessagesController(val service: MessageService) {
   @GetMapping("/api/v1/messages")
-  fun index() : MutableList<Message> {
-    val mMessagesList : MutableList<Message> = mutableListOf()
-
-    val enMessage = Message(1, "Hello")
-    mMessagesList.add(enMessage)
-
-    val viMessage = Message(2, "Xin chào")
-    mMessagesList.add(viMessage)
-
-    val jaMessage = Message(2, "こんにちは")
-    mMessagesList.add(jaMessage)
-
-    return mMessagesList
+  fun index() : List<Message> {
+    return service.all()
   }
 
   @PostMapping("/api/v1/messages")
