@@ -1,6 +1,6 @@
 # KOTLIN HELLO
 
-## 1. Getting Started
+## 1. Development Environment
 
 - Spring Boot 3.1.2
 
@@ -10,7 +10,19 @@
 
 - Kotlin 1.7.21
 
-## 2. Getting Started
+## 2. Spring Boot Dependencies
+
+## a. Web
+
+- Spring Web
+
+## b. SQL
+
+- Spring Data JDBC
+
+- H2 Database
+
+## 3. Getting Started
 
 - Command
 ```sh
