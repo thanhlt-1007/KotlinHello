@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping
 //
 // PARAM
 //
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestBody
 
@@ -60,6 +61,18 @@ class MessageService(val db: JdbcTemplate) {
     val insertQuery = "INSERT INTO messages VALUES (?, ?)"
     db.update(insertQuery, message.id, message.text)
   }
+
+  fun find(id: Int) : Message? {
+    var message: Message? = null
+
+    val selectQuery = "SELECT * FROM messages WHERE id = $id"
+    db.query(selectQuery) { response, _ ->
+      var text = response.getString("text")
+      message = Message(id, text)
+    }
+
+    return message
+  }
 }
 
 //
@@ -85,6 +98,11 @@ class MessagesController(val service: MessageService) {
     service.create(message)
 
     return message
+  }
+
+  @GetMapping("/api/v1/messages/{id}")
+  fun show(@PathVariable id: Int) : Message? {
+    return service.find(id)
   }
 }
 
