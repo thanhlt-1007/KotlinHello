@@ -52,3 +52,7 @@ curl -X POST 'http://localhost:8080/api/v1/messages' \
   "text": "dummy text"
 }'
 ```
+
+```sh
+curl -X GET 'http://localhost:8080/api/v1/messages/1'
+```
