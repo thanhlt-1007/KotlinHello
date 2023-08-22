@@ -3,7 +3,8 @@ package learn.kotlinsb.KotlinHello
 //
 // UTIL
 //
-import java.util.UUID
+// Must import for CrudRepository
+import java.util.*
 
 //
 // SPRING BOOT
@@ -74,19 +75,13 @@ class MessageService(val db: MessageRepositiry) {
   //   return Message(id, text)
   // }
 
-  // fun find(id: String) : Message? {
-  //   var message: Message? = null
+  fun find(id: String) : Message {
+    return db.findById(id).toList().first()
+  }
 
-  //   val selectQuery = "SELECT * FROM messages WHERE id = $id"
-  //   db.query(selectQuery) { response, _ ->
-  //     var text = response.getString("text")
-  //     message = Message(id, text)
-  //   }
-
-  //   return message
-  // }
+  // Must import for CrudRepository
+  fun <T : Any> Optional<out T>.toList(): List<T> = if (isPresent) listOf(get()) else emptyList()
 }
-
 
 //
 // REST CONTROLLER
@@ -111,10 +106,10 @@ class MessagesController(val service: MessageService) {
   //   return service.create(message)
   // }
 
-  // @GetMapping("/api/v1/messages/{id}")
-  // fun show(@PathVariable id: String) : Message? {
-  //   return service.find(id)
-  // }
+  @GetMapping("/api/v1/messages/{id}")
+  fun show(@PathVariable id: String) : Message {
+    return service.find(id)
+  }
 }
 
 //
