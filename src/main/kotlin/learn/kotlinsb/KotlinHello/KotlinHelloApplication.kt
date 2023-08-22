@@ -1,28 +1,36 @@
 package learn.kotlinsb.KotlinHello
 
+//
+// SPRING BOOT
+//
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
-import org.springframework.web.bind.annotation.RestController
 //
-// ROUTES
+// REST CONTROLLER
+//
+import org.springframework.web.bind.annotation.RestController
+
+//
+// ROUTE
 //
 import org.springframework.web.bind.annotation.GetMapping
+
 //
-// PARAMS
+// PARAM
 //
 import org.springframework.web.bind.annotation.RequestParam
+
+//
+// MODEL
+//
 
 // data class
 data class Message(val id: Int?, val text: String)
 
-@SpringBootApplication
-class KotlinHelloApplication
-
-fun main(args: Array<String>) {
-  runApplication<KotlinHelloApplication>(*args)
-}
-
+//
+// REST CONTROLLER
+//
 @RestController
 class HomeController {
   @GetMapping("/")
@@ -48,4 +56,14 @@ class MessagesController {
 
     return mMessagesList
   }
+}
+
+//
+// SPRING BOOT
+//
+@SpringBootApplication
+class KotlinHelloApplication
+
+fun main(args: Array<String>) {
+  runApplication<KotlinHelloApplication>(*args)
 }
