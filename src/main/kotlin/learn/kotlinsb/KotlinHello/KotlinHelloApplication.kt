@@ -1,6 +1,11 @@
 package learn.kotlinsb.KotlinHello
 
 //
+// UTIL
+//
+import java.util.UUID
+
+//
 // SPRING BOOT
 //
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -39,7 +44,7 @@ import org.springframework.web.bind.annotation.RequestBody
 //
 
 // data class
-data class Message(val id: Int?, val text: String)
+data class Message(val id: String?, val text: String)
 
 // Service class
 @Service
@@ -49,7 +54,7 @@ class MessageService(val db: JdbcTemplate) {
 
     val selectQuery = "SELECT * FROM messages"
     db.query(selectQuery) { response, _ ->
-      var id = response.getString("id").toInt()
+      var id = response.getString("id")
       var text = response.getString("text")
       var message = Message(id, text)
       mMessagesList.add(message)
@@ -57,12 +62,17 @@ class MessageService(val db: JdbcTemplate) {
     return mMessagesList.toList()
   }
 
-  fun create(message: Message) {
+  fun create(messageParam: Message) : Message {
+    val id = messageParam.id ?: UUID.randomUUID().toString()
+    val text = messageParam.text
+
     val insertQuery = "INSERT INTO messages VALUES (?, ?)"
-    db.update(insertQuery, message.id, message.text)
+    db.update(insertQuery, id, text)
+
+    return Message(id, text)
   }
 
-  fun find(id: Int) : Message? {
+  fun find(id: String) : Message? {
     var message: Message? = null
 
     val selectQuery = "SELECT * FROM messages WHERE id = $id"
@@ -95,13 +105,11 @@ class MessagesController(val service: MessageService) {
 
   @PostMapping("/api/v1/messages")
   fun create(@RequestBody message: Message) : Message {
-    service.create(message)
-
-    return message
+    return service.create(message)
   }
 
   @GetMapping("/api/v1/messages/{id}")
-  fun show(@PathVariable id: Int) : Message? {
+  fun show(@PathVariable id: String) : Message? {
     return service.find(id)
   }
 }
