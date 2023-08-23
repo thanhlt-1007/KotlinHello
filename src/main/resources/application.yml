@@ -1,7 +1,8 @@
 spring:
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:./data/kotlin_hello
+    # url: jdbc:h2:file:./data/kotlin_hello
+    url: jdbc:h2:file:./data/${MYSQL_DATABASE}
     username: name
     password: password
   sql:
